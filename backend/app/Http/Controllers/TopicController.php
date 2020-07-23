@@ -7,6 +7,7 @@ use App\Post;
 use App\Topic;
 use App\Http\Resources\Topic as TopicResource;
 use App\Http\Requests\TopicCreateRequest;
+use App\Http\Requests\UpdateTopicRequest;
 
 class TopicController extends Controller
 {
@@ -33,6 +34,13 @@ class TopicController extends Controller
     }
 
     public function show(Topic $topic) {
+        return new TopicResource($topic);
+    }
+
+    public function update(UpdateTopicRequest $request, $topic) {
+        $this->authorize('update', $topic);
+        $topic->title = $request->get('title', $topic->title);
+        $topic->save();
         return new TopicResource($topic);
     }
 }
