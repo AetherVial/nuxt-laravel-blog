@@ -17,7 +17,7 @@ class Post extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'body' => $this->title,
+            'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'user' => $this->user

@@ -1,40 +1,39 @@
 <template>
-  <div class="container col-md-6 mt5">
-    <h2>User Dashboard</h2>
-    <hr/>
-    <h3>Create New Topic</h3>
+  <div class="container col-md-6 mt-5">
+    <h2>Create a new topic</h2>
+    <br>
     <form @submit.prevent="create">
       <div class="form-group">
-        <label>Topic Title</label>
-        <input v-model="form.title" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Title"/>
+        <label><strong>Topic title:</strong></label>
+        <input v-model="form.title" type="text" class="form-control" placeholder="Enter topic title" autofocus>
         <small class="form-text text-danger" v-if="errors.title">{{errors.title[0]}}</small>
       </div>
       <div class="form-group">
-        <label>Post Body</label>
-        <textarea class="form-control" v-model="form.body" cols="30" rows="10"></textarea>
+        <label><strong>Topic body:</strong></label>
+        <textarea v-model="form.body" class="form-control" rows="5"></textarea>
         <small class="form-text text-danger" v-if="errors.body">{{errors.body[0]}}</small>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Create</button>
     </form>
-    <br>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      form: {
-        title: '',
-        body: ''
+  export default {
+    middleware: ['auth'],
+    data() {
+      return {
+        form: {
+          title: '',
+          body: ''
+        }
+      }
+    },
+    methods: {
+      async create() {
+        await this.$axios.$post('/topics', this.form)
+        return this.$router.push('/')
       }
     }
-  },
-  methods: {
-    async create() {
-      await this.$axios.$post('/topics', this.form)
-      this.$router.push('/')
-    }
   }
-}
 </script>
